@@ -1,0 +1,17 @@
+{
+    "WorkflowName": "Workflow01",
+    "Rules": [
+        {
+            "RuleName": "Rule01",
+            "SuccessEvent": "Schema01.json",
+            "ErrorMessage": "Not Schema01.json",
+            "Expression": "Utility.Validate(input1, \"Schema01.json\") == true"
+        },
+        {
+            "RuleName": "Rule02",
+            "SuccessEvent": "Schema02.json",
+            "ErrorMessage": "Not Schema02.json",
+            "Expression": "Utility.Validate(input1, \"Schema02.json\") == true"
+        }
+    ]
+}

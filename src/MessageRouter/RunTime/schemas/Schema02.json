@@ -1,0 +1,21 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Schema02.json",
+    "type": "object",
+    "properties": {
+        "address": {
+            "type": "string"
+        },
+        "city": {
+            "type": "string"
+        },
+        "state": {
+            "type": "string"
+        },
+        "zip": {
+            "type": "string"
+        }
+    },
+    "required": [ "address", "city", "state", "zip" ],
+    "additionalProperties": false
+}
