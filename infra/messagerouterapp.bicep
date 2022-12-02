@@ -49,6 +49,11 @@ resource messageRouterApp 'Microsoft.App/containerApps@2022-06-01-preview' = {
   properties: {
     managedEnvironmentId: containerAppEnvironment.id
     configuration: {
+      ingress: {
+        external: true
+        targetPort: 5075
+        transport: 'auto'
+      }
       registries: [
         {
           identity: managedIdentity.id
@@ -121,3 +126,5 @@ resource messageRouterApp 'Microsoft.App/containerApps@2022-06-01-preview' = {
     }
   }
 }
+
+output MESSAGEROUTERAPP_URI string = 'https://${messageRouterApp.properties.configuration.ingress.fqdn}'
