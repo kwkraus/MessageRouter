@@ -19,14 +19,15 @@ param principalId string = ''
 @description('The imae name for the message router service')
 param messageRouterImageName string 
 
-resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: '${name}-rg'
-  location: location
-}
-
 var resourceToken = toLower(uniqueString(subscription().id, name, location))
 var tags = {
   'azd-env-name': name
+}
+
+resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
+  name: '${name}-rg'
+  location: location
+  tags: tags
 }
 
 module resources './resources.bicep' = {
