@@ -351,3 +351,6 @@ MigrationBackup/
 
 # Environment 
 .env
+
+# azd
+.azure
