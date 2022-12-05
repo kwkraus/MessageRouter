@@ -1,5 +1,5 @@
 # MessageRouter
-A component designed to receive and send messages from Azure Service Bus based on their message type
+A component designed to receive and route messages from Azure Service Bus based on their message type. The implementation was inspired by [Message Router](https://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageRouter.html) as described by Gregor Hohpe and Bobby Woolf in [Enterprise Integration Patterns](https://www.enterpriseintegrationpatterns.com/).
 
 ## Description
 This component is powered by [Azure Services Bus](https://learn.microsoft.com/en-us/azure/service-bus-messaging/), [NJsonSchema](https://github.com/RicoSuter/NJsonSchema), and [RulesEngine](https://github.com/microsoft/RulesEngine).  It is packaged as a container and implemented as an ASP.NET 7 web api.  The program may be run in any container environment with connectivity to the required services, but here, it is shown as an [Azure Container App](https://learn.microsoft.com/en-us/azure/container-apps/).
