@@ -21,6 +21,9 @@ resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2022-01-01-preview
   resource ingressQueue 'queues' = {
     name: 'ingress'
   }
+  resource egressQueue 'queues' = {
+    name: 'unknown'
+  }
 }
 
 // 

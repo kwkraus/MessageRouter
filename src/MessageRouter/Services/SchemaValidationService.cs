@@ -27,9 +27,15 @@ public class SchemaValidationService : ISchemaValidationService
 
     public async Task<string> Validate(string input)
     {
-        var result= string.Empty;
+        var result = string.Empty;
         var results = await _engine.ExecuteAllRulesAsync(_workflowName, input);    
         results.OnSuccess((eventName) => result = eventName);
+
+        if (string.IsNullOrEmpty(result))
+        {
+            result = "unknown";
+        }
+        
         return result;
     }
 
