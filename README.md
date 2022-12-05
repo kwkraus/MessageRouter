@@ -42,6 +42,9 @@ In order to use the CLI for this project, simply do the following:
 # obtain a copy of the project
 git clone https://github.com/jeffvan98/MessageRouter.git [DIRECTORY]
 
+# change to the project directory
+cd [DIRECTORY]
+
 # log in
 azd login
 
