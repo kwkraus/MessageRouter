@@ -68,4 +68,16 @@ The infrastructure will be composed of:
 - A storage account with Azure Files and a File Share.  This file share will hold both the workflow file and schema files used by the application.
 - A Service Bus.  This service bus will have the ingress queue as well as an egress queue for unknown messages.  Create additional egress queues as needed.
 - A monitoring infrastrcture comrpised of Azure Log Analytics and App Insights
-- A managed identity which is used by the Container App when interacting with the Service Bus and Container Registr
+- A managed identity which is used by the Container App when interacting with the Service Bus and Container Registry
+  
+## Component Configuration
+
+The component operates as a container and obtains its configuration through these environment variables:
+Key | Description | Example
+--- |------------ | -------
+AZURE\_CLIENT\_ID | The application is designed to run as a User Assigned Managed Identity.  Specify the client id of this managed identity. | b5f2284d-1651-4621-9bcb-c28904745a55
+ServiceBus\_\_FullyQualifiedNamespace | The fully qualified namespace of the Azure Service Bus to be used by the component | sb42.servicebus.windows.net
+MessageRouter\_\_IngressQueue | The name of the ingress (input) Service Bus Queue | ingress 
+MessageRouter\_\_WorkflowFile | The full path and filename of the workflow file to be used by the code.  This file to be imported into the app as a volume | /app/config/workflow.json
+MessageRouter\_\_SchemaDirectory | The full path to the schema files that are to be used by the component | /app/config/schemas
+ApplicationInsights\_\_ConnectionString | The Application Insights connection string to be used by the component |
