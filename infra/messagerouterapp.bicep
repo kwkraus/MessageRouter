@@ -119,7 +119,7 @@ resource messageRouterApp 'Microsoft.App/containerApps@2022-06-01-preview' = {
       volumes: [
         {
           name: 'volume01'
-          storageName: uniqueString(storageAccount.name, 'sh${resourceToken}')
+          storageName: 'st${uniqueString(storageAccount.name, 'sh${resourceToken}')}'
           storageType: 'AzureFile'
         }
       ]

@@ -33,7 +33,7 @@ resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2022-06-01-p
     }
   }
   resource storages 'storages' = {
-    name: uniqueString(storageAccount.name, 'sh${resourceToken}')
+    name: 'st${uniqueString(storageAccount.name, 'sh${resourceToken}')}'
     properties: {
       azureFile: {
         accessMode: 'ReadOnly'
