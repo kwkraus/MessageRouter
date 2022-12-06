@@ -1,9 +1,9 @@
+using MessageRouter.Configuration;
 using MessageRouter.Contracts;
+using MessageRouter.Rules;
 using Microsoft.Extensions.Options;
 using RulesEngine.Models;
 using static RulesEngine.Extensions.ListofRuleResultTreeExtension;
-using MessageRouter.Configuration;
-using MessageRouter.Rules;
 
 namespace MessageRouter.Services;
 
@@ -16,13 +16,11 @@ public class SchemaValidationService : ISchemaValidationService
     {
         _logger = logger;
 
-        using (var reader = File.OpenText(options.Value.WorkflowFile))
-        {
-            var workflowFileContents = reader.ReadToEnd();
-            var engineSettings = new ReSettings() { CustomTypes = new[] { typeof(Utility) } };
-            _engine = new RulesEngine.RulesEngine(new string[] { workflowFileContents }, engineSettings);
-            _workflowName = _engine.GetAllRegisteredWorkflowNames().First();
-        }
+        using var reader = File.OpenText(options.Value.WorkflowFile);
+        var workflowFileContents = reader.ReadToEnd();
+        var engineSettings = new ReSettings() { CustomTypes = new[] { typeof(Utility) } };
+        _engine = new RulesEngine.RulesEngine(new string[] { workflowFileContents }, engineSettings);
+        _workflowName = _engine.GetAllRegisteredWorkflowNames().First();
     }
 
     public async Task<string> Validate(string input)
@@ -33,6 +31,7 @@ public class SchemaValidationService : ISchemaValidationService
 
         if (string.IsNullOrEmpty(result))
         {
+            _logger.LogWarning($"{nameof(Validate)} result was empty. Setting to 'unknown'");
             result = "unknown";
         }
         
