@@ -1,10 +1,10 @@
-# MessageRouter
+# MessageRouter-Dapr
 A component designed to receive and route messages from Azure Service Bus based on their message type. The implementation was inspired by [Message Router](https://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageRouter.html) as described by Gregor Hohpe and Bobby Woolf in [Enterprise Integration Patterns](https://www.enterpriseintegrationpatterns.com/).
 
 ## Description
-This component is powered by [Azure Services Bus](https://learn.microsoft.com/en-us/azure/service-bus-messaging/), [NJsonSchema](https://github.com/RicoSuter/NJsonSchema), and [RulesEngine](https://github.com/microsoft/RulesEngine).  It is packaged as a container and implemented as an ASP.NET 7 web api.  The program may be run in any container environment with connectivity to the required services, but here, it is shown as an [Azure Container App](https://learn.microsoft.com/en-us/azure/container-apps/).
+This component is powered by [Dapr](https://dapr.io/), [NJsonSchema](https://github.com/RicoSuter/NJsonSchema), and [RulesEngine](https://github.com/microsoft/RulesEngine).  It is packaged as a container and implemented as an ASP.NET 7 web api.  The program may be run in any container environment with connectivity to the required services, but here, it is shown as an [Azure Container App](https://learn.microsoft.com/en-us/azure/container-apps/).
 
-The component is designed to receive a JSON message from an Azure Service Bus Queue (ingress).  Then, it uses a combinaiton of the RulesEngine and NJsonSchema to determine the message's message type (schema).  Once determined, the component sends the message to the appropriate egress queue.  If, however, the message schema cannot be determined, the component will forward the message to an egress queue called, 'unknown.'
+The component is designed to receive a JSON message from an Dapr Pub/Sub building block topic (ingress).  Then, it uses a combinaiton of the RulesEngine and NJsonSchema to determine the message's message type (schema).  Once determined, the component sends the message to the appropriate egress queue.  If, however, the message schema cannot be determined, the component will forward the message to an egress queue called, 'unknown'.
 
 ![Logical Component Architecture](docs/Logic.png)
 
@@ -16,14 +16,14 @@ The component must be configured in order to perform its function.  Schema detec
     "Rules": [
         {
             "RuleName": "Rule01",
-            "SuccessEvent": "Schema01.json",
-            "ErrorMessage": "Not Schema01.json",
+            "SuccessEvent": "schema01",
+            "ErrorMessage": "Not schema01",
             "Expression": "Utility.Validate(input1, \"Schema01.json\") == true"
         },
         {
             "RuleName": "Rule02",
-            "SuccessEvent": "Schema02.json",
-            "ErrorMessage": "Not Schema02.json",
+            "SuccessEvent": "schema02",
+            "ErrorMessage": "Not schema02",
             "Expression": "Utility.Validate(input1, \"Schema02.json\") == true"
         }
     ]
