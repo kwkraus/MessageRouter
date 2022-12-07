@@ -34,6 +34,20 @@ Above, the configuration file includes two rules that both employ a utility meth
 
 ## Usage
 
+### Local Development
+To run this project locally you will need to have Docker Desktop installed as well as Dapr CLI and Dapr runtime configured.
+
+Then run the following command from the project directory:
+
+`dapr run --app-id message-router --app-port 5075 -- dotnet run --project .`
+
+This command assumes the default components path for Dapr CLI, which should contain a configuration for Redis pub/sub with default installation.
+
+From browser, navigate to `http://localhost:5075/swagger/index.html` to access the Swagger UI.  Run the `sendrandommessage` endpoint to generate a random message to start the process of message routing.
+
+Use a tool like `redis-commander` to visualize the topics (aka Streams) in Redis.  `npm install -g redis-commander` then run `redis-commander` from shell
+
+### Azure Infrastructure
 This application has been prepared for use with the [Azure Developer Command Line Interface](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/reference).  See the [Install azd](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd?tabs=baremetal%2Cwindows) guide for instructions on how to install the CLI.
 
 In order to use the CLI for this project, simply do the following:
