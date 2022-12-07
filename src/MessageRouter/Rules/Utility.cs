@@ -11,8 +11,6 @@ public static class Utility
         var schema = _schemas.GetOrAdd(schemaFile, (schemaFile) =>
             AsyncUtil.RunSync<JsonSchema>(() => JsonSchema.FromFileAsync(Path.Combine(References.SchemaDirectory, schemaFile))));
 
-        Console.WriteLine(input);
-
         return schema.Validate(input).Count == 0;
     }
 

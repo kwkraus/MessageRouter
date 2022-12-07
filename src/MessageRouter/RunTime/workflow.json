@@ -3,14 +3,14 @@
     "Rules": [
         {
             "RuleName": "Rule01",
-            "SuccessEvent": "Schema01.json",
-            "ErrorMessage": "Not Schema01.json",
+            "SuccessEvent": "schema01",
+            "ErrorMessage": "Not schema01",
             "Expression": "Utility.Validate(input1, \"Schema01.json\") == true"
         },
         {
             "RuleName": "Rule02",
-            "SuccessEvent": "Schema02.json",
-            "ErrorMessage": "Not Schema02.json",
+            "SuccessEvent": "schema02",
+            "ErrorMessage": "Not schema02",
             "Expression": "Utility.Validate(input1, \"Schema02.json\") == true"
         }
     ]

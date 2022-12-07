@@ -6,7 +6,7 @@
         "firstName": {
             "type": "string"
         },
-        "lastName2": {
+        "lastName": {
             "type": "string"
         }
     },

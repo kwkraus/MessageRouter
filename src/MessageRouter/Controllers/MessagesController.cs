@@ -29,27 +29,25 @@ namespace MessageRouter.Controllers
             _logger = logger;
         }
 
-        [Topic("pubsub", "messages")]
+        [Topic("pubsub", "ingress")]
         [HttpPost("/routemessage")]
-        public async Task<ActionResult> RouteMessage(object order)
+        public async Task<ActionResult> RouteMessage(object message)
         {
             using (var operation = _telemetry.StartOperation<RequestTelemetry>($"{GetType().FullName}::{nameof(RouteMessage)}"))
             {
                 try
                 {
                     operation.Telemetry.Success = true;
-                    var result = await _validator.Validate(order.ToString());
-                    _logger.LogInformation(result);
+                    var result = await _validator.Validate(message.ToString());
+                    _logger.LogInformation($"Validated message is '{result}'");
 
                     if (!string.IsNullOrEmpty(result))
                     {
-                        await _dapr.PublishEventAsync<object>("pubsub", "oldOrder", order);
-                        await _dapr.PublishEventAsync("pubsub", "unknown-messages");
+                        await _dapr.PublishEventAsync<object>("pubsub", result, message);
                     }
                     else
                     {
-                        var err = $"Unknown message: \"{order}\"";
-                        _logger.LogError(err);
+                        var err = $"Validation failed for: \"{message}\"";
                         throw new InvalidDataException(err);
                     }
                 }
@@ -64,30 +62,36 @@ namespace MessageRouter.Controllers
                 }
             }
 
-            return Ok(order);
+            return Ok(message);
         }
 
-        [HttpGet("/sendmessage")]
-        public async Task<ActionResult> SendMessage()
+        [HttpGet("/sendrandommessage")]
+        public async Task<ActionResult> SendRandomMessage()
         {
             var randomizer = new Random();
-            //var order = new Order(randomizer.Next(1, 100));
-            object order;
+            object message;
 
-            if (randomizer.Next(1, 10) % 2 == 0)
+            //randomized number used to determine which message to send
+            var randomNum = randomizer.Next(1, 10);
+
+            if (randomNum % 2 == 0) //schema01
             {
-                order = new Schema1 { FirstName = "Kevin", LastName = "Kraus" };
+                message = new Schema1 { FirstName = "Kevin", LastName = "Kraus" };
             }
-            else
+            else if(randomNum % 5 == 0) //unknown
             {
-                order = new Schema2 { Address = "1234 Main Street", City = "AnyTown", State = "AnyCity", Zip = "12345" };
+                message = new { Age = 122, BirthDay = "Jan 1 1900" };
+            }
+            else //schema02
+            {
+                message = new Schema2 { Address = "1234 Main Street", City = "AnyTown", State = "AnyCity", Zip = "12345" };
             }
 
             // Publish an event/message using Dapr PubSub
-            await _dapr.PublishEventAsync<object>("pubsub", "messages", order);
-            Console.WriteLine("Published data: " + order);
+            await _dapr.PublishEventAsync<object>("pubsub", "ingress", message);
+            _logger.LogInformation($"{nameof(SendRandomMessage)} Published data: {message}");
 
-            return Created("", order);
+            return Created("", message);
         }
     }
 }
